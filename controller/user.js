@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(404).send(error);
+    res.status(500).send(error);
   }
 };
 const createOrder = async (req, res) => {
@@ -27,7 +27,7 @@ const createOrder = async (req, res) => {
       order,
     });
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 const createProduct = async (req, res) => {
@@ -42,7 +42,7 @@ const createProduct = async (req, res) => {
       product,
     });
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 
@@ -67,7 +67,7 @@ const userInfo = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 const unDelivery = async (req, res) => {
@@ -81,7 +81,7 @@ const unDelivery = async (req, res) => {
       order,
     });
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 const mostRecentOrder = async (req, res) => {
@@ -94,7 +94,7 @@ const mostRecentOrder = async (req, res) => {
     });
     res.status(200).json(order);
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).json(err);
   }
 };
 const mostActiveUser = async (req, res) => {
@@ -129,7 +129,7 @@ const mostInActive = async (req, res) => {
     });
     res.status(200).json(user);
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 const mostPurchased = async (req, res) => {
@@ -152,14 +152,14 @@ const mostPurchased = async (req, res) => {
     });
     res.status(200).json(product);
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 
   res.send(product);
 };
 const mostExpense = async (req, res) => {
   try {
-    const orderDetails = await models.Orderdetail.findAll({
+    const orderDetails = await models.Orderdetail.findOne({
       group: "orderId",
       attributes: [
         "orderId",
@@ -170,16 +170,15 @@ const mostExpense = async (req, res) => {
         attributes: [],
       },
       order: [["total_amount", "desc"]],
-      limit: 1,
     });
     res.status(200).json(order);
   } catch (err) {
-    res.status(404).send(err);
+    res.status(500).send(err);
   }
 };
 
 const cheapest = async (req, res) => {
-  const orderDetails = await models.Orderdetail.findAll({
+  const orderDetails = await models.Orderdetail.findOne({
     group: "orderId",
     attributes: [
       "orderId",
@@ -190,7 +189,6 @@ const cheapest = async (req, res) => {
       attributes: [],
     },
     order: [["total_amount", "asc"]],
-    limit: 1,
   });
   res.send(orderDetails);
 };

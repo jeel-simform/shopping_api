@@ -9,7 +9,7 @@ const userValidate = (req, res, next) => {
   const { error } = userSchema.validate(req.body, { abortEarly: false });
   if (error) {
     const { details } = error;
-    res.status(500).json({
+    res.status(404).json({
       error: details,
     });
   } else {
